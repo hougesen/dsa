@@ -1,0 +1,10 @@
+[tasks.format]
+run = [
+  "mise fmt",
+  "npx prettier --write .",
+  "zprint-clj -w src/org/hougesen/dsa.clj",
+  "zprint-clj -w deps.edn",
+]
+
+[tasks.start]
+run = ["clj -M src/org/hougesen/dsa.clj"]
