@@ -1,16 +1,13 @@
-(ns org.hougesen.dsa
-  (:require [clojure.data.json :as json])
-  (:use [clojure.java.shell :only [sh]]))
+(ns org.hougesen.dsa (:use [clojure.java.shell :only [sh]]))
 
 (defn not-empty? [line] (if (empty? line) false true))
 
-(defn extract-pid [line] ((json/read-str line) "ID"))
-
 (defn extract-pids
   [lines]
-  (map extract-pid (filter not-empty? (clojure.string/split-lines lines))))
+  (filter not-empty?
+    (map clojure.string/trim (clojure.string/split-lines lines))))
 
-(defn docker-ps [] (sh "docker" "ps" "--format" "json"))
+(defn docker-ps [] (sh "docker" "ps" "--format" "{{.ID}}"))
 
 (defn print-stopping [pid] (println (format "%s: stopping" pid)))
 
